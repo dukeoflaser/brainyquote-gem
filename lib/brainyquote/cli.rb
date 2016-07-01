@@ -4,6 +4,7 @@ class BrainyQuote::CLI
   end
 
   def starter
+    @filter = 'main'
     puts ""
     display_instructions_for('intro', 'topics', 'exit')
     puts ""
@@ -33,22 +34,43 @@ class BrainyQuote::CLI
   end
 
   def main_controller
-    if @input == ""
-      topic_controller
-    else
-      puts "Sorry, that command is not understood. Please try again."
-      get_input
+    if @filter == 'main'
+      if @input == ""
+        topic_controller
+      else
+        puts "Sorry, that command is not understood. Please try again."
+        get_input
+      end
     end
   end
 
   def topic_controller
-    puts "Here are some topics."
-    topics = BrainyQuote::Quote.topics
-    topics.each do |topic|
-      puts topic
-    end
+    @filter == 'topic'
+    get_topics
+    format_topics
     display_instructions_for('choose')
     get_input
+  end
+
+  def format_topics
+    topics_string = ""
+    @topics.each_with_index do |topic, i|
+      cell =  "#{i + 1}) #{topic}"
+      x = (25 - cell.length)
+      x.times{ cell << " " }
+      topics_string << cell
+    end
+
+    rows = topics_string.scan(/.{1,75}/)
+    rows.each {|row| puts row}
+  end
+
+  def retrieve_quote
+    "Here's a quote!"
+  end
+
+  def get_topics
+    @topics = BrainyQuote::Quote.topics
   end
 
 end
