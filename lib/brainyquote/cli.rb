@@ -43,6 +43,10 @@ class BrainyQuote::CLI
 
   def topic_controller
     puts "Here are some topics."
+    topics = BrainyQuote::Quote.topics
+    topics.each do |topic|
+      puts topic
+    end
     display_instructions_for('choose')
     get_input
   end
