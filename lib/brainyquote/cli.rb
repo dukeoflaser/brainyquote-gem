@@ -45,11 +45,12 @@ class BrainyQuote::CLI
   end
 
   def topic_controller
-    @filter == 'topic'
+    @filter = 'topic'
     get_topics
     format_topics
     display_instructions_for('choose')
     get_input
+    retrieve_quote
   end
 
   def format_topics
@@ -63,10 +64,11 @@ class BrainyQuote::CLI
 
     rows = topics_string.scan(/.{1,75}/)
     rows.each {|row| puts row}
+    puts ""
   end
 
   def retrieve_quote
-    "Here's a quote!"
+    puts "Here's a quote!"
   end
 
   def get_topics
