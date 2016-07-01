@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require './lib/environment'
+BrainyQuote::CLI.new.call
