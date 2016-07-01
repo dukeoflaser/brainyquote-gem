@@ -1,0 +1,2 @@
+class BrainyQuote::Quote
+end
