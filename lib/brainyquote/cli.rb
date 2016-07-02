@@ -21,8 +21,8 @@ class BrainyQuote::CLI
     puts "That is not a valid option." if options.include?('invalid')
     puts "Hit 'Enter' to see available topics." if options.include?('topics')
     if options.include?('retry')
-      puts "Would you like to try another from this topic? (y/n)"
-      puts "'n' will display the topic list."
+      puts "Would you like another quote from this topic? (y/n)"
+      puts "Hitting 'n' will display the topic list."
     end
     puts "Enter a number from the list to select a topic." if options.include?('choose')
     puts "Type 'exit' to leave." if options.include?('exit')
@@ -83,12 +83,6 @@ class BrainyQuote::CLI
 
 
 
-  def quote_controller
-
-  end
-
-
-
   def format_topics
     topics_string = ""
     @topics.each_with_index do |topic, i|
@@ -105,10 +99,10 @@ class BrainyQuote::CLI
 
   def format_quote
     puts ""
-    puts "  ~#{@quote.topic_name.split.map(&:capitalize).join(' ')}~"
+    puts "~#{@quote.topic_name.split.map(&:capitalize).join(' ')}~"
     puts ""
     puts ""
-    p @quote.text
+    puts word_wrap(@quote.text, line_width: 75)
     puts ""
     puts "  - #{@quote.author}"
     puts ""
@@ -116,6 +110,15 @@ class BrainyQuote::CLI
     puts ""
     puts ""
   end
+
+  #ActionView's WordWrap
+  def word_wrap(text, options = {})
+   line_width = options.fetch(:line_width, 80)
+
+   text.split("\n").collect! do |line|
+     line.length > line_width ? line.gsub(/(.{1,#{line_width}})(\s+|$)/, "\\1\n").strip : line
+   end * "\n"
+ end
 
 
 
