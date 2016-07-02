@@ -13,11 +13,15 @@ class BrainyQuote::CLI
   end
 
   def display_instructions_for(*options)
-    puts "Need a Quote?" if options.include?('intro')
+    puts "Welcome to BrainyQuote." if options.include?('intro')
+    puts "That is not a valid option." if options.include?('invalid')
     puts "Hit 'Enter' to see available topics." if options.include?('topics')
-    puts "Would you like to try another? (y/n)" if options.include?('retry')
+    if options.include?('retry')
+      puts "Would you like to try another from this topic? (y/n)"
+      puts "'n' will display the topic list."
+    end
+    puts "Enter a number from the list to select a topic." if options.include?('choose')
     puts "Type 'exit' to leave." if options.include?('exit')
-    puts "Pick a number to select a topic." if options.include?('choose')
   end
 
   def get_input
@@ -38,8 +42,19 @@ class BrainyQuote::CLI
       if @input == ""
         topic_controller
       else
-        puts "Sorry, that command is not understood. Please try again."
+        display_instructions_for('invalid', 'topics', 'exit')
         get_input
+      end
+    elsif @filter == 'topic'
+      if (1..122) === @input.to_i
+        translate_input_to_topic_name
+        retrieve_quote
+        display_instructions_for('retry', 'exit')
+        decide_to_retry
+      else
+        display_instructions_for('invalid', 'choose', 'exit')
+        get_input
+        continue_or_exit
       end
     end
   end
@@ -48,9 +63,13 @@ class BrainyQuote::CLI
     @filter = 'topic'
     get_topics
     format_topics
-    display_instructions_for('choose')
+    display_instructions_for('choose', 'exit')
     get_input
-    retrieve_quote
+    continue_or_exit
+  end
+
+  def quote_controller
+
   end
 
   def format_topics
@@ -73,6 +92,24 @@ class BrainyQuote::CLI
 
   def get_topics
     @topics = BrainyQuote::Quote.topics
+  end
+
+
+  private
+  def translate_input_to_topic_name
+    @topic_name = @topics[@input.to_i - 1].downcase
+  end
+
+  def decide_to_retry
+    get_input
+
+    if @input == 'y'
+      retrieve_quote
+      display_instructions_for('retry', 'exit')
+      decide_to_retry
+    elsif @input == 'n'
+      topic_controller
+    end
   end
 
 end
