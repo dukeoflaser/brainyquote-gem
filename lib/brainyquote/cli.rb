@@ -59,6 +59,7 @@ class BrainyQuote::CLI
       if (1..122) === @input.to_i
         translate_input_to_topic_name
         retrieve_quote
+        format_quote
         display_instructions_for('retry', 'exit')
         decide_to_retry
       else
@@ -102,6 +103,20 @@ class BrainyQuote::CLI
     puts ""
   end
 
+  def format_quote
+    puts ""
+    puts "  ~#{@quote.topic_name.split.map(&:capitalize).join(' ')}~"
+    puts ""
+    puts ""
+    p @quote.text
+    puts ""
+    puts "  - #{@quote.author}"
+    puts ""
+    puts ""
+    puts ""
+    puts ""
+  end
+
 
 
 
@@ -123,8 +138,6 @@ class BrainyQuote::CLI
 
   def retrieve_quote
     @quote = BrainyQuote::Quote.quote_about(@topic_name)
-    puts "#{@quote.text}"
-    puts "#{@quote.author}"
   end
 
 
@@ -134,6 +147,7 @@ class BrainyQuote::CLI
 
     if @input == 'y'
       retrieve_quote
+      format_quote
       display_instructions_for('retry', 'exit')
       decide_to_retry
     elsif @input == 'n'

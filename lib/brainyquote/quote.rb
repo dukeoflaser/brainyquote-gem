@@ -3,6 +3,7 @@ require 'open-uri'
 
 class BrainyQuote::Quote
   attr_accessor :text, :author
+  attr_reader :topic_name
 
   def initialize(topic_name)
     @topic_name = topic_name
