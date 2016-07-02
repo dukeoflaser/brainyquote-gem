@@ -3,6 +3,8 @@ class BrainyQuote::CLI
     starter
   end
 
+
+
   def starter
     @filter = 'main'
     puts ""
@@ -11,6 +13,8 @@ class BrainyQuote::CLI
     get_input
     continue_or_exit
   end
+
+
 
   def display_instructions_for(*options)
     puts "Welcome to BrainyQuote." if options.include?('intro')
@@ -24,9 +28,13 @@ class BrainyQuote::CLI
     puts "Type 'exit' to leave." if options.include?('exit')
   end
 
+
+
   def get_input
     @input = gets.strip.downcase
   end
+
+
 
   def continue_or_exit
     until @input == 'exit'
@@ -36,6 +44,8 @@ class BrainyQuote::CLI
     puts "Goodbye!"
     exit
   end
+
+
 
   def main_controller
     if @filter == 'main'
@@ -59,6 +69,8 @@ class BrainyQuote::CLI
     end
   end
 
+
+
   def topic_controller
     @filter = 'topic'
     get_topics
@@ -68,9 +80,13 @@ class BrainyQuote::CLI
     continue_or_exit
   end
 
+
+
   def quote_controller
 
   end
+
+
 
   def format_topics
     topics_string = ""
@@ -86,19 +102,32 @@ class BrainyQuote::CLI
     puts ""
   end
 
-  def retrieve_quote
-    puts "Here's a quote!"
-  end
+
+
+
+
+
+
+
 
   def get_topics
     @topics = BrainyQuote::Quote.topics
   end
 
 
+
   private
   def translate_input_to_topic_name
     @topic_name = @topics[@input.to_i - 1].downcase
   end
+
+  def retrieve_quote
+    @quote = BrainyQuote::Quote.quote_about(@topic_name)
+    puts "#{@quote.text}"
+    puts "#{@quote.author}"
+  end
+
+
 
   def decide_to_retry
     get_input
