@@ -11,10 +11,14 @@ class BrainyQuote::Quote
 
   class << self
     def quote_about(topic_name)
-      quote = self.new(topic_name)
-      quote.text = quote.quote_from_topic.values.first
-      quote.author = quote.quote_from_topic.keys.first
-      quote
+      # binding.pry
+      quote_object = self.new(topic_name)
+      quote_data = quote_object.quote_from_topic
+      
+      quote_object.text = quote_data.first
+      quote_object.author = quote_data.last
+      quote_object
+      # binding.pry
     end
 
     def topics
@@ -34,29 +38,42 @@ class BrainyQuote::Quote
 
 
   def quote_from_topic
-    quote_info = {}
-    quotes = []
-    authors = []
+    text_and_author = []
+    # quote_info = {}
+    # quotes = []
+    # authors = []
 
     url = random_pagination_url
     doc = Nokogiri::HTML(open(url))
 
+    #Retrieve text/author pairs.
+    doc.css('.bqQt').each do |data|
+      text_and_author << data.text.split("\n").reject!(&:empty?).take(2)
+    end
+
     #Retrieve authors and text indiviudally from page.
-    doc.css('.bq-aut a').each do |author|
-      authors << author.text
-    end
-    doc.css('.bqQuoteLink a').each do |quote|
-      quotes << quote.text
-    end
+    # doc.css('.bq-aut a').each do |author|
+    #   authors << author.text
+    # end
+    # doc.css('.bqQuoteLink a').each do |quote|
+    #   quotes << quote.text
+    # end
 
     #Randomly select a scraped quote/author.
-    index = (rand(quotes.length) - 1)
-    quote = quotes[index]
-    author = authors[index]
+    index = (rand(text_and_author.length) - 1)
+    text_and_author[index]
+    # binding.pry
+    # quote = text_and_author[index].first
+    # author = text_and_author[index].last
+
+    # quote = quotes[index]
+    # author = authors[index]
 
     #Associtate text/author
-    quote_info[author] = quote
-    quote_info
+    # quote_info[author] = quote
+    # quote_info
+
+    # binding.pry
   end
 
 
