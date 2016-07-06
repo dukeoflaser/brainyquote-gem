@@ -5,16 +5,16 @@ class BrainyQuote::CLI
 
 
 
+
+  private
   def starter
     @filter = 'main'
     puts ""
     display_instructions_for('intro', 'topics', 'exit')
-    puts ""
+    skip_line
     get_input
     continue_or_exit
   end
-
-
 
   def display_instructions_for(*options)
     puts "Welcome to BrainyQuote." if options.include?('intro')
@@ -28,24 +28,18 @@ class BrainyQuote::CLI
     puts "Type 'exit' to leave." if options.include?('exit')
   end
 
-
-
   def get_input
     @input = gets.strip.downcase
   end
-
-
 
   def continue_or_exit
     until @input == 'exit'
       main_controller
     end
-
-    puts "Goodbye!"
+    skip_line
+    puts "Enough quotes for now. Goodbye!"
     exit
   end
-
-
 
   def main_controller
     if @filter == 'main'
@@ -70,8 +64,6 @@ class BrainyQuote::CLI
     end
   end
 
-
-
   def topic_controller
     @filter = 'topic'
     get_topics
@@ -80,8 +72,6 @@ class BrainyQuote::CLI
     get_input
     continue_or_exit
   end
-
-
 
   def format_topics
     topics_string = ""
@@ -94,21 +84,17 @@ class BrainyQuote::CLI
 
     rows = topics_string.scan(/.{1,75}/)
     rows.each {|row| puts row}
-    puts ""
+    skip_line
   end
 
   def format_quote
-    puts ""
+    skip_line
     puts "~#{@quote.topic_name.split.map(&:capitalize).join(' ')}~"
-    puts ""
-    puts ""
+    skip_line(2)
     puts word_wrap(@quote.text, line_width: 75)
-    puts ""
+    skip_line
     puts "  - #{@quote.author}"
-    puts ""
-    puts ""
-    puts ""
-    puts ""
+    skip_line(4)
   end
 
   #ActionView's WordWrap
@@ -120,21 +106,15 @@ class BrainyQuote::CLI
    end * "\n"
  end
 
-
-
-
-
-
-
-
+  def skip_line(n = 1)
+    n.times{ puts "" }
+  end
 
   def get_topics
     @topics = BrainyQuote::Quote.topics
   end
 
 
-
-  private
   def translate_input_to_topic_name
     @topic_name = @topics[@input.to_i - 1].downcase
   end
@@ -142,8 +122,6 @@ class BrainyQuote::CLI
   def retrieve_quote
     @quote = BrainyQuote::Quote.quote_about(@topic_name)
   end
-
-
 
   def decide_to_retry
     get_input
