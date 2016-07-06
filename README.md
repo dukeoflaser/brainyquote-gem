@@ -1,15 +1,14 @@
 # BrainyQuote
+A simple Command Line Interface that allows the user to receive a randomly
+selected quote based on topic of the user's choice.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/BrainyQuote`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'BrainyQuote'
+gem 'brainyquote'
 ```
 
 And then execute:
@@ -18,11 +17,17 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install BrainyQuote
+    $ gem install brainyquote
 
 ## Usage
 
-TODO: Write usage instructions here
+After installation, simply type `brainyquote` to access the BrainyQuote interface.
+Hitting 'enter' will display a list of topics.
+Choose a topic via the associated number to receive a quote.
+The user can type `y` to get another quote from the same topic as many times
+as he or she wishes.
+Type `n` to view the list of topics again.
+Leave the interface at any time by typing `exit`.
 
 ## Development
 
@@ -38,4 +43,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
