@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require './lib/brainyquote'
+require_relative '../lib/brainyquote'
 BrainyQuote::CLI.new.call
