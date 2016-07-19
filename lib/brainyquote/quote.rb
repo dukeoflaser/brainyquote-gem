@@ -7,12 +7,11 @@ class BrainyQuote::Quote
   end
 
   def data_from_topic
-    text_and_author = []
     doc = Nokogiri::HTML(open(random_pagination_url))
 
     #Retrieve text/author pairs.
-    doc.css('.bqQt').each do |data|
-      text_and_author << data.text.split("\n").reject!(&:empty?).take(2)
+    text_and_author = doc.css('.bqQt').map do |data|
+      data.text.split("\n").reject!(&:empty?).take(2)
     end
 
     #Randomly selectand return a scraped quote/author.
@@ -50,17 +49,14 @@ class BrainyQuote::Quote
     end
 
     def topics
-      topics = []
       url = 'http://www.brainyquote.com/quotes/topics.html'
       doc = Nokogiri::HTML(open(url))
 
-      doc.css('table .bqLn a').each do |link|
-        topics << link.text
+      doc.css('table .bqLn a').map do |link|
+        link.text
       end
-
-      topics
     end
   end
-  
+
   private :random_pagination_url
 end

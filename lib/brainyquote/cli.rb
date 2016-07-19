@@ -1,4 +1,9 @@
 class BrainyQuote::CLI
+  @@instructions = {
+    'intro' => "Welcome to BrainyQuote.",
+    'invalid' => "That is not a valid option."
+  }
+
   def call
     starter
   end
@@ -9,7 +14,7 @@ class BrainyQuote::CLI
   private
   def starter
     @filter = 'main'
-    puts ""
+    skip_line
     display_instructions_for('intro', 'topics', 'exit')
     skip_line
     get_input
@@ -17,15 +22,18 @@ class BrainyQuote::CLI
   end
 
   def display_instructions_for(*options)
-    puts "Welcome to BrainyQuote." if options.include?('intro')
-    puts "That is not a valid option." if options.include?('invalid')
-    puts "Hit 'Enter' to see available topics." if options.include?('topics')
-    if options.include?('retry')
-      puts "Would you like another quote from this topic? (y/n)"
-      puts "Hitting 'n' will display the topic list."
+    options.each do |instruction|
+      puts @@instructions[instruction]
     end
-    puts "Enter a number from the list to select a topic." if options.include?('choose')
-    puts "Type 'exit' to leave." if options.include?('exit')
+    # puts "Welcome to BrainyQuote." if options.include?('intro')
+    # puts "That is not a valid option." if options.include?('invalid')
+    # puts "Hit 'Enter' to see available topics." if options.include?('topics')
+    # if options.include?('retry')
+    #   puts "Would you like another quote from this topic? (y/n)"
+    #   puts "Hitting 'n' will display the topic list."
+    # end
+    # puts "Enter a number from the list to select a topic." if options.include?('choose')
+    # puts "Type 'exit' to leave." if options.include?('exit')
   end
 
   def get_input

@@ -40,6 +40,13 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/BrainyQuote. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
+##TODO
+A class that tracks topic lists needs to be created.
+Should be able to save scraped data as objects so iteration doesn't happen every time.
+The Random URL should be reused until all quotes are exhausted.
+Fix Instructions.
+
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
